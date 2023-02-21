@@ -3,11 +3,11 @@
 
 {
     "name": "Real Estate",
-    "version": "1.2",
+    "author": "Vauxoo",
+    "version": "16.0.1.0.0",
     "category": "Category",
     "sequence": 15,
     "summary": "Track leads and close opportunities",
-    "description": "",
     "website": "https://www.odoo.com/page/realestate",
     "depends": [
         "base",
@@ -23,7 +23,13 @@
         # 'digest',
         # 'phone_validation',
     ],
-    "data": ["security/ir.model.access.csv", "views/estate_property_views.xml", "views/estate_menus.xml"],
+    "data": [
+        "security/ir.model.access.csv",
+        "views/estate_property_views.xml",
+        "views/estate_property_type_views.xml",
+        "views/estate_property_tag_views.xml",
+        "views/estate_menus.xml",
+    ],
     "installable": True,
     "application": True,
     "auto_install": False,
