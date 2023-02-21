@@ -4,11 +4,11 @@
 
 {
     "name": "Real Estate",
-    "version": "1.2",
+    "author": "Vauxoo",
+    "version": "16.0.1.0.0",
     "category": "Category",
     "sequence": 15,
     "summary": "Track leads and close opportunities",
-    "description": "",
     "website": "https://www.odoo.com/page/realestate",
     "depends": [
         "base",
