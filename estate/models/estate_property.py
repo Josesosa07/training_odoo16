@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
+
 from odoo import fields, models
 from dateutil.relativedelta import relativedelta
+
 
 # Available values for the garden_orientation field.
 _garden_orientation_list = [("N", "North"), ("S", "South"), ("E", "East"), ("W", "West")]
@@ -16,6 +18,8 @@ _state_list = [
 
 
 class EstateProperty(models.Model):
+    # --------------------------------------- Private Attributes ----------------------------------
+
     _name = "estate.property"
     _description = "Real Estate Property"
 
@@ -44,3 +48,9 @@ class EstateProperty(models.Model):
     )
     state = fields.Selection(selection=_state_list, default="new", string="Status", required=True, copy=False)
     active = fields.Boolean("Active", default=True)
+
+    # Relational
+    property_type_id = fields.Many2one("estate.property.type", string="Property Type")
+    buyer_id = fields.Many2one("res.partner", string="Buyer", readonly=True, copy=False)
+    user_id = fields.Many2one("res.users", string="Salesman", default=lambda self: self.env.user)
+    tag_ids = fields.Many2many("estate.property.tag", string="Tags")
