@@ -8,11 +8,11 @@ import pytz
 # Available values for the garden_orientation field.
 _garden_orientation_list = [("N", "North"), ("S", "South"), ("E", "East"), ("W", "West")]
 _state_list = [
-    ("New", "New"),
-    ("Offer Received", "Offer Received"),
-    ("Offer Accepted", "Offer Accepted"),
-    ("Sold", "Sold"),
-    ("Canceled", "Canceled"),
+    ("new", "New"),
+    ("offer_received", "Offer Received"),
+    ("offer_accepted", "Offer Accepted"),
+    ("sold", "Sold"),
+    ("canceled", "Canceled"),
 ]
 local_timezone = pytz.timezone("America/Monterrey")
 
@@ -44,5 +44,5 @@ class EstateProperty(models.Model):
         string="Garden Orientation",
         help="Type is used to set the garden orientation",
     )
-    state = fields.Selection(selection=_state_list, default="New", string="Status", required=True, copy=False)
+    state = fields.Selection(selection=_state_list, default="new", string="Status", required=True, copy=False)
     active = fields.Boolean("Active", default=True)
