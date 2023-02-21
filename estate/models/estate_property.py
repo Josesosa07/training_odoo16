@@ -25,7 +25,7 @@ class EstateProperty(models.Model):
 
     # --------------------------------------- Fields Declaration ----------------------------------
     name = fields.Char("Title", required=True, default="Unknown")
-    description = fields.Text("Description")
+    description = fields.Text()
     postcode = fields.Char("Post Code")
     date_availability = fields.Date(
         "Available From",
@@ -33,21 +33,20 @@ class EstateProperty(models.Model):
         copy=False,
         help="Availability Start Date",
     )
-    expected_price = fields.Float("Expected Price", required=True, default=0, help="Expected price of the Property")
-    selling_price = fields.Float("Selling Price", readonly=True, copy=False, help="Selling price of the Property")
-    bedrooms = fields.Integer("Bedrooms", default=2)
+    expected_price = fields.Float(required=True, default=0, help="Expected price of the Property")
+    selling_price = fields.Float(readonly=True, copy=False, help="Selling price of the Property")
+    bedrooms = fields.Integer(default=2)
     living_area = fields.Integer("Living area (sqm)", default=0)
-    facades = fields.Integer("Facades", default=0)
-    garage = fields.Boolean("Garage")
-    garden = fields.Boolean("Garden")
+    facades = fields.Integer(default=0)
+    garage = fields.Boolean()
+    garden = fields.Boolean()
     garden_area = fields.Integer("Garden_area (sqm)", default=0)
     garden_orientation = fields.Selection(
         selection=_garden_orientation_list,
-        string="Garden Orientation",
         help="Type is used to set the garden orientation",
     )
     state = fields.Selection(selection=_state_list, default="new", string="Status", required=True, copy=False)
-    active = fields.Boolean("Active", default=True)
+    active = fields.Boolean(default=True)
 
     # Relational
     property_type_id = fields.Many2one("estate.property.type", string="Property Type")
