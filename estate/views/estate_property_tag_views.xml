@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+   <record id="estate_property_tag_action" model="ir.actions.act_window">
+       <field name="name">Property Tags</field>  <!-- This is the name of the action -->
+       <field name="res_model">estate.property.tag</field> <!-- This is the model which the action applies to -->
+       <field name="view_mode">tree,kanban,form</field> <!-- are the views that will be available -->
+   </record>
+
+
+</odoo>
