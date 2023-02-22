@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import fields, models
+from odoo import api, fields, models
 from dateutil.relativedelta import relativedelta
 import pytz
 
@@ -51,7 +51,35 @@ class EstateProperty(models.Model):
 
     # Relational
     property_type_id = fields.Many2one("estate.property.type", string="Property Type")
-    buyer_id = fields.Many2one('res.partner', string='Buyer', readonly=True, copy=False)
-    user_id = fields.Many2one('res.users', string='Salesman', default=lambda self: self.env.user)
+    buyer_id = fields.Many2one("res.partner", string="Buyer", readonly=True, copy=False)
+    user_id = fields.Many2one("res.users", string="Salesman", default=lambda self: self.env.user)
     tag_ids = fields.Many2many("estate.property.tag", string="Tags")
     offer_ids = fields.One2many("estate.property.offer", "property_id", string="Offers")
+
+    # Computed
+    total_area = fields.Integer(
+        string="Total Area (sqm)",
+        compute="_compute_total_area",
+        help="Total area computed with the living_area and the garden_area",
+    )
+    best_price = fields.Float("Best Offer", compute="_compute_best_price", help="Best offer received")
+
+    @api.depends("living_area", "garden_area")
+    def _compute_total_area(self):
+        for line in self:
+            line.total_area = line.living_area + line.garden_area
+
+    @api.depends("offer_ids.price")
+    def _compute_best_price(self):
+        for line in self:
+            line.best_price = max(line.offer_ids.mapped("price")) if line.offer_ids else 0.0
+
+    # Onchanges
+    @api.onchange("garden")
+    def _onchange_garden(self):
+        if self.garden:
+            self.garden_area = 10
+            self.garden_orientation = "N"
+        else:
+            self.garden_area = 0
+            self.garden_orientation = False
