@@ -2,8 +2,9 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo import _  # to fix the message of translation-required
+from odoo.tools.float_utils import float_compare, float_is_zero
 from dateutil.relativedelta import relativedelta
 import pytz
 
@@ -24,6 +25,10 @@ class EstateProperty(models.Model):
 
     _name = "estate.property"
     _description = "Real Estate Property"
+    _sql_constraints = [
+        ("check_expected_price", "CHECK(expected_price > 0)", "The expected price must be strictly positive"),
+        ("check_selling_price", "CHECK(selling_price >= 0)", "The offer price must be positive"),
+    ]
 
     # --------------------------------------- Fields Declaration ----------------------------------
     # name = fields.Char('Estate Property Name', required=True, translate=True)
@@ -96,3 +101,18 @@ class EstateProperty(models.Model):
         if "canceled" in self.mapped("state"):
             raise UserError(_("Canceled properties cannot be sold."))
         return self.write({"state": "sold"})
+
+    # Constrains:
+    @api.constrains("expected_price", "selling_price")
+    def _check_price_difference(self):
+        for prop in self:
+            if (
+                not float_is_zero(prop.selling_price, precision_rounding=0.01)
+                and float_compare(prop.selling_price, prop.expected_price * 90.0 / 100.0, precision_rounding=0.01) < 0
+            ):
+                raise ValidationError(
+                    _(
+                        "The selling price must be at least 90% of the expected price! "
+                        + "You must reduce the expected price if you want to accept this offer."
+                    )
+                )
