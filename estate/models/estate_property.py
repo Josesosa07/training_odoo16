@@ -3,6 +3,7 @@
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
+from odoo import _  # to fix the message of translation-required
 from dateutil.relativedelta import relativedelta
 import pytz
 
@@ -88,10 +89,10 @@ class EstateProperty(models.Model):
     # Action Methods
     def action_canceled(self):
         if "sold" in self.mapped("state"):
-            raise UserError("Sold properties cannot be canceled.")
+            raise UserError(_("Sold properties cannot be canceled."))
         return self.write({"state": "canceled"})
 
     def action_sold(self):
         if "canceled" in self.mapped("state"):
-            raise UserError("Canceled properties cannot be sold.")
+            raise UserError(_("Canceled properties cannot be sold."))
         return self.write({"state": "sold"})
