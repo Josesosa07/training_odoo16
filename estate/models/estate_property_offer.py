@@ -2,6 +2,8 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo import api, fields, models
+from odoo.exceptions import UserError
+from odoo import _  # to fix the message of translation-required
 from dateutil.relativedelta import relativedelta
 
 _status = [("accepted", "Accepted"), ("refused", "Refused")]
@@ -35,3 +37,21 @@ class EstatePropertyOffer(models.Model):
         for offer in self:
             date = offer.create_date.date() if offer.create_date else fields.Date.today()
             offer.validity = (offer.date_deadline - date).days
+
+    def action_accept(self):
+        for record in self:
+            property_record = record.property_id
+            if property_record.state == "offer_accepted":
+                raise UserError(_("An offer has already been accepted."))
+            record.state = "accepted"
+            property_record.state = "offer_accepted"
+            property_record.selling_price = record.price
+            property_record.buyer_id = record.partner_id
+        return True
+
+    def action_refuse(self):
+        return self.write(
+            {
+                "state": "refused",
+            }
+        )
