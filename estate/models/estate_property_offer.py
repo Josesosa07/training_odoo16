@@ -12,6 +12,9 @@ class EstatePropertyOffer(models.Model):
     # ---------------------------------------- Private Attributes ---------------------------------
     _name = "estate.property.offer"
     _description = "Real Estate Property Offer"
+    _sql_constraints = [
+        ("check_offer_price", "CHECK(price > -0)", "The price must be strictly positive"),
+    ]
 
     # --------------------------------------- Fields Declaration ----------------------------------
 

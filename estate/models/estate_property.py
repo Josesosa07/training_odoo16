@@ -23,6 +23,10 @@ class EstateProperty(models.Model):
 
     _name = "estate.property"
     _description = "Real Estate Property"
+    _sql_constraints = [
+        ("check_expected_price", "CHECK(expected_price > 0)", "The expected price must be strictly positive"),
+        ("check_selling_price", "CHECK(selling_price >= 0)", "The offer price must be positive"),
+    ]
 
     # --------------------------------------- Fields Declaration ----------------------------------
     name = fields.Char("Title", required=True, default="Unknown")
@@ -93,3 +97,18 @@ class EstateProperty(models.Model):
         if "canceled" in self.mapped("state"):
             raise UserError(_("Canceled properties cannot be sold."))
         return self.write({"state": "sold"})
+
+    # Constrains:
+    @api.constrains("expected_price", "selling_price")
+    def _check_price_difference(self):
+        for prop in self:
+            if (
+                not float_is_zero(prop.selling_price, precision_rounding=0.01)
+                and float_compare(prop.selling_price, prop.expected_price * 90.0 / 100.0, precision_rounding=0.01) < 0
+            ):
+                raise ValidationError(
+                    _(
+                        "The selling price must be at least 90% of the expected price! "
+                        "You must reduce the expected price if you want to accept this offer."
+                    )
+                )
