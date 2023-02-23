@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import api, fields, models
-from odoo.exceptions import UserError
+from odoo import api, fields, models, _
+from odoo.exceptions import UserError, ValidationError
+from odoo.tools.float_utils import float_compare, float_is_zero
 from dateutil.relativedelta import relativedelta
 
 
@@ -85,10 +86,10 @@ class EstateProperty(models.Model):
     # Action Methods
     def action_canceled(self):
         if "sold" in self.mapped("state"):
-            raise UserError("Sold properties cannot be canceled.")
+            raise UserError(_("Sold properties cannot be canceled."))
         return self.write({"state": "canceled"})
 
     def action_sold(self):
         if "canceled" in self.mapped("state"):
-            raise UserError("Canceled properties cannot be sold.")
+            raise UserError(_("Canceled properties cannot be sold."))
         return self.write({"state": "sold"})
