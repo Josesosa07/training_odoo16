@@ -16,6 +16,3 @@ class EstatePropertyType(models.Model):
 
     # Basic
     name = fields.Char(required=True)
-
-    # Relational (for inline view)
-    property_ids = fields.One2many("estate.property", "property_type_id", string="Properties")
