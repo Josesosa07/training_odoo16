@@ -8,6 +8,7 @@ class EstatePropertyTag(models.Model):
     # ---------------------------------------- Private Attributes ---------------------------------
     _name = "estate.property.tag"
     _description = "Real Estate Property Tag"
+    _order = "name"  # asc or desc, by default asc
     _sql_constraints = [
         ("check_unique_tag", "UNIQUE(name)", "The name must be unique"),
     ]
