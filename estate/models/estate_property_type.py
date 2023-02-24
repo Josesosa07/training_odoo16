@@ -8,7 +8,7 @@ class EstatePropertyType(models.Model):
     # ---------------------------------------- Private Attributes ---------------------------------
     _name = "estate.property.type"
     _description = "Real Estate Property Type"
-    _order = "name"  # asc or desc, by default asc
+    _order = "sequence, name"  # asc or desc, by default asc
     _sql_constraints = [
         ("check_name", "UNIQUE(name)", "The name must be unique"),
     ]
@@ -17,6 +17,7 @@ class EstatePropertyType(models.Model):
 
     # Basic
     name = fields.Char(required=True)
+    sequence = fields.Integer('Sequence', default=1, help="To order stages. Lower is better.")
 
     # Relational (for inline view)
     property_ids = fields.One2many("estate.property", "property_type_id", string="Properties")
