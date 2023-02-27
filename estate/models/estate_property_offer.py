@@ -24,7 +24,7 @@ class EstatePropertyOffer(models.Model):
     state = fields.Selection(selection=_status, copy=False, string="Status")
     partner_id = fields.Many2one("res.partner", string="Partner", required=True)
     property_id = fields.Many2one("estate.property", string="Property", required=True)
-    property_type_id =  fields.Many2one("estate.property.type", related="property_id.property_type_id", stored=True)
+    property_type_id = fields.Many2one("estate.property.type", related="property_id.property_type_id", stored=True)
     validity = fields.Integer(string="Validity (days)", default=7)
 
     # Computed
@@ -59,3 +59,15 @@ class EstatePropertyOffer(models.Model):
                 "state": "refused",
             }
         )
+
+    # Lifecycle:
+    @api.model
+    def create(self, vals):
+        if vals.get("property_id") and vals.get("price"):
+            property_obj = self.env["estate.property"].browse(vals["property_id"])
+            if property_obj.offer_ids:
+                if fields.float_compare(vals["price"], property_obj.best_price, precision_rounding=0.01) < 0:
+                    message = _("The offer must be higher than {name}").format(name=property_obj.best_price)
+                    raise UserError(message)
+            property_obj.state = "offer_received"
+        return super().create(vals)
