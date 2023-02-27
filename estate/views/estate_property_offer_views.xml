@@ -4,6 +4,7 @@
         <field name="name">Property Offers</field>
         <field name="res_model">estate.property.offer</field>
         <field name="view_mode">tree,kanban,form</field>
+        <field name="domain">[('property_type_id','=', active_id)]</field>
     </record>
 
     <record id="estate_property_offer_view_form" model="ir.ui.view">
@@ -36,6 +37,7 @@
                 <button name="action_accept" type="object" icon="fa-check" string="Accept" title="Accept" attrs="{'invisible': ['|', ('state', '=', 'accepted'), ('state', '=', 'refused')]}"/>
                 <button name="action_refuse" type="object" class="oe_highlight" icon="fa-times" title="Refuse" attrs="{'invisible': ['|', ('state', '=', 'accepted'), ('state', '=', 'refused')]}"/>
                 <field name="state" invisible="1"/>
+                <field name="property_type_id"/>
             </tree>
         </field>
     </record>
