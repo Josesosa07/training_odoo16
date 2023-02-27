@@ -67,6 +67,7 @@
         <field name="name">Properties</field>  <!-- This is the name of the action -->
         <field name="res_model">estate.property</field> <!-- This is the model which the action applies to -->
         <field name="view_mode">tree,kanban,form</field> <!-- are the views that will be available -->
+        <field name="context">{'search_default_available': True}</field>
     </record>
 
     <record id="estate_property_view_tree" model="ir.ui.view">
@@ -98,7 +99,7 @@
                 <field name="postcode"/>
                 <field name="expected_price"/>
                 <field name="bedrooms"/>
-                <field name="living_area"/>
+                <field name="living_area" filter_domain="[('living_area', '>=', self)]"/>
                 <field name="facades"/>
                 <separator/>
                 <filter string="Available" name="available" domain="[('state', 'in', ('new', 'offer_received'))]"/>
