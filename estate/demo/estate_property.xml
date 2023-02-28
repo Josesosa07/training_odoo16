@@ -14,6 +14,7 @@
         <field name="garden">True</field>
         <field name="garden_area">100000</field>
         <field name="garden_orientation">S</field>
+        <field name="property_type_id" ref="property_residential"/>
     </record>
 
     <record id="trailer" model="estate.property">
@@ -29,6 +30,7 @@
         <field name="facades">4</field>
         <field name="garage">False</field>
         <field name="garden">True</field>
+        <field name="property_type_id" ref="property_residential"/>
     </record>
 
 </odoo>
