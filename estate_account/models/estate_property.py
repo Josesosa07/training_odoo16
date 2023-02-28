@@ -13,4 +13,10 @@ class EstateProperty(models.Model):
 
     def action_sold(self):
         res = super().action_sold()
+        for record in self:
+            values = {
+                "partner_id": record.buyer_id.id,
+                "move_type": "out_invoice",
+            }
+            self.env["account.move"].create(values)
         return res
