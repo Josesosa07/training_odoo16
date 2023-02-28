@@ -7,9 +7,12 @@
     "category": "Category",
     "summary": "Estate account",
     "depends": [
+        "base",
         "estate",
         "account",
     ],
+    "installable": True,
+    "application": True,
     "auto_install": True,
     "license": "LGPL-3",
 }
