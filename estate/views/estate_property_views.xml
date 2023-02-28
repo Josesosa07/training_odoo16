@@ -5,7 +5,7 @@
         <field name="name">estate.property.kanban</field>
         <field name="model">estate.property</field>
         <field name="arch" type="xml">
-            <kanban>
+            <kanban default_group_by="property_type_id" records_draggable="0">
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_global_click">
