@@ -26,6 +26,7 @@
     ],
     "demo": [
         "demo/estate_property.xml",
+        "demo/estate_offer.xml",
     ],
     "installable": True,
     "application": True,
