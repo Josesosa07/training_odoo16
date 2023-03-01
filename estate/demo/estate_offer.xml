@@ -24,4 +24,12 @@
         <field name="date_deadline" eval="str(datetime.now().year)+'-02-12'"/>
     </record>
 
+    <function model="estate.property.offer" name="action_accept">
+        <value eval="[ref('offer_azure_villa_2')]"/>
+    </function>
+
+    <function model="estate.property.offer" name="action_refuse">
+        <value eval="[ref('offer_azure_villa_1'), ref('offer_deco_villa')]"/>
+    </function>
+
 </odoo>
