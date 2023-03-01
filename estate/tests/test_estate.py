@@ -37,6 +37,7 @@ class EstateTestCase(TransactionCase):
     def test_action_sell(self):
         """Test that everything behaves like it should when selling a property."""
         # You cannot sell a property without an accepted offer
+        print("ACTION SELL")
         with self.assertRaises(UserError):
             self.properties.action_sold()
 
@@ -66,6 +67,7 @@ class EstateTestCase(TransactionCase):
 
     def test_property_form(self):
         """Test the form view of properties."""
+        print("ACTION FORM")
         with Form(self.properties[0]) as prop:
             self.assertEqual(prop.garden_area, 0)
             self.assertIs(prop.garden_orientation, False)
