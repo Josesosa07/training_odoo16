@@ -2,6 +2,7 @@
 from odoo.tests.common import TransactionCase
 from odoo.exceptions import UserError
 from odoo.tests import tagged
+from odoo.tests.common import Form
 
 
 @tagged("post_install", "-at_install")
@@ -62,3 +63,15 @@ class EstateTestCase(TransactionCase):
                     }
                 ]
             )
+
+    def test_property_form(self):
+        """Test the form view of properties."""
+        with Form(self.properties[0]) as prop:
+            self.assertEqual(prop.garden_area, 0)
+            self.assertIs(prop.garden_orientation, False)
+            prop.garden = True
+            self.assertEqual(prop.garden_area, 10)
+            self.assertEqual(prop.garden_orientation, "N")
+            prop.garden = False
+            self.assertEqual(prop.garden_area, 0)
+            self.assertIs(prop.garden_orientation, False)
