@@ -35,5 +35,5 @@ class EstateProperty(models.Model):
                     ),
                 ],
             }
-            moves = self.env["account.move"].create(values)
+            self.env["account.move"].create(values)
         return res
