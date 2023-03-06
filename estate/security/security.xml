@@ -19,4 +19,27 @@
         <field name="implied_ids" eval="[(ref('estate_group_user'))]"/>
     </record>
 
+    <record id="limit_agents_rule" model="ir.rule">
+        <field name="name">Limit agents to only being able to see or modify properties which have no salesperson, or for which they are the salesperson</field>
+        <field name="model_id" ref="estate.model_estate_property"/>
+        <field name="perm_read" eval="1"/>
+        <field name="groups" eval="[Command.link(ref('estate_group_user'))]"/>
+        <field name="domain_force">[
+            '|', ('user_id', '=', user.id),
+                ('user_id', '=', False)
+        ]</field>
+    </record>
+
+    <record id="admin_rule" model="ir.rule">
+        <field name="name">Managers Can do everything</field>
+        <field name="model_id" ref="estate.model_estate_property"/>
+        <field name="groups" eval="[Command.link(ref('estate_group_manager'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="domain_force">
+            [(1, '=', 1)]
+        </field>
+    </record>
 </odoo>
