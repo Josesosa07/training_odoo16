@@ -6,7 +6,7 @@
     "name": "Real Estate",
     "author": "Vauxoo",
     "version": "16.0.1.0.0",
-    "category": "Category",
+    "category": "Real Estate/Brokerage",
     "sequence": 15,
     "summary": "Track leads and close opportunities",
     "website": "https://www.odoo.com/page/realestate",
@@ -16,6 +16,7 @@
     ],
     "data": [
         "security/ir.model.access.csv",
+        "security/security.xml",
         "views/estate_property_views.xml",
         "views/estate_property_type_views.xml",
         "views/estate_property_tag_views.xml",
