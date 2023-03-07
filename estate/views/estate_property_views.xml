@@ -33,6 +33,49 @@
         </field>
     </record>
 
+    <record id="estate_property_view_board" model="ir.ui.view">
+        <field name="name">My board</field>
+        <field name="model">board.board</field>
+        <field name="arch" type="xml">
+            <form string="My Dashboard">
+                <board style="1-1" >
+                    <column>
+                        <group>
+                            <action name="%(estate_property_graph_action)d"/>
+                            <!-- <aggregate name="min_expected_price" string="Min Expected Price" field="expected_price"
+                                group_operator="min" help="Lowest expected price."/> -->
+                        </group>
+                    </column>
+                    <column>
+                        <action name="%(estate_property_tree_action)d"/>
+                    </column>
+                </board>
+            </form>
+        </field>
+    </record>
+
+    <record id="estate_property_tree_action" model="ir.actions.act_window">
+        <field name="name">Property Tree</field>
+        <field name="res_model">estate.property</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <record id="estate_property_graph_action" model="ir.actions.act_window">
+        <field name="name">Property Graph</field>
+        <field name="res_model">estate.property</field>
+        <field name="view_mode">graph</field>
+    </record>
+
+    <record id="estate_property_dashboard_action" model="ir.actions.act_window">
+        <field name="name">Property dashboard</field>
+        <field name="res_model">board.board</field>
+        <field name="view_mode">form</field>
+        <field name="usage">menu</field>
+        <field name="view_id" ref="estate_property_view_board"/>
+    </record>
+
+    <menuitem id="estate_property_dashboard_menu" sequence="10" action="estate_property_dashboard_action" parent="estate_menu_root"/>
+
     <record id="estate_property_view_form" model="ir.ui.view">
         <field name="name">estate.property.form</field>
         <field name="model">estate.property</field>
@@ -94,7 +137,6 @@
             </form>
         </field>
     </record>
-
 
     <record id="estate_property_action" model="ir.actions.act_window">
         <field name="name">Properties</field>  <!-- This is the name of the action -->

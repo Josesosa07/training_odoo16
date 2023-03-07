@@ -12,6 +12,7 @@
     "website": "https://www.odoo.com/page/realestate",
     "depends": [
         "base",
+        "board",
     ],
     "data": [
         "security/ir.model.access.csv",
