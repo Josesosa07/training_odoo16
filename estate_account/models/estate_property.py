@@ -12,7 +12,7 @@ class EstateProperty(models.Model):
 
     def action_sold(self):
         res = super().action_sold()
-        journal = self.env["account.journal"].search([("type", "=", "sale")], limit=1)
+        journal = self.env["account.journal"].sudo().search([("type", "=", "sale")], limit=1)
         for record in self:
             values = {
                 "partner_id": record.buyer_id.id,
@@ -35,5 +35,5 @@ class EstateProperty(models.Model):
                     ),
                 ],
             }
-            self.env["account.move"].create(values)
+            self.env["account.move"].sudo().create(values)
         return res
