@@ -13,6 +13,8 @@ class EstateProperty(models.Model):
     def action_sold(self):
         res = super().action_sold()
         journal = self.env["account.journal"].sudo().search([("type", "=", "sale")], limit=1)
+        self.check_access_rights('write')
+        self.check_access_rule('write')
         for record in self:
             values = {
                 "partner_id": record.buyer_id.id,
@@ -35,5 +37,6 @@ class EstateProperty(models.Model):
                     ),
                 ],
             }
+            print(" reached ".center(100, '='))
             self.env["account.move"].sudo().create(values)
         return res
