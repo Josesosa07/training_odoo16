@@ -42,4 +42,13 @@
             [(1, '=', 1)]
         </field>
     </record>
+
+    <record id="company_rule" model="ir.rule">
+        <field name="name">Agent only can access to its company</field>
+        <field name="model_id" ref="estate.model_estate_property"/>
+        <field name="domain_force">
+            ['|', ('company_id', '=', False),
+                ('company_id', 'in', company_ids)]
+        </field>
+    </record>
 </odoo>
